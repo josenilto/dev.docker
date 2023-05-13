@@ -1,4 +1,4 @@
-# Dev | Docker Install com compose
+# Dev | Docker Install com Compose no Ubuntu 20.04
 
 ✅ **PASSO 01:** Install Docker Engine.
 
@@ -47,3 +47,9 @@ Atualize o índice de pacotes e repositório apt.
 ```bash
 sudo apt-get update && sudo apt-get upgrade -y
 ```
+
+#### ➡️ Links:
+
+[<img title="Docker" align="left" alt="josenilto | Twitter" width="28px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/docker.svg" />][docker]
+
+[docker]: https://docs.docker.com/engine/install/
