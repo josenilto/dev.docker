@@ -1,6 +1,6 @@
 # Dev | Docker Install com Compose no Ubuntu 20.04
 
-**Docker** é um de gerenciamento de processos de aplicação em containers.           
+**Docker** é um de gerenciador de processos de aplicação em containers.           
 Os containers são executados isolados podendo executar varias aplicações.           
 São semelhantes a máquinas virtuais.            
 Containers são mais portáveis, mais fáceis de usar e mais dependentes do que sistema operacionais.
