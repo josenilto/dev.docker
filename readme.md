@@ -10,6 +10,20 @@ Antes de inícia a instalação do **Docker** vamos verificar a versão do siste
 ```bash
 cat /etc/os-release
 ```
+**Exemplo:**
+
+NAME="Ubuntu"           
+VERSION="20.04.6 LTS (Focal Fossa)"         
+ID=ubuntu               
+ID_LIKE=debian              
+PRETTY_NAME="Ubuntu 20.04.6 LTS"            
+VERSION_ID="20.04"              
+HOME_URL="https://www.ubuntu.com/"          
+SUPPORT_URL="https://help.ubuntu.com/"          
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"             
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"         
+VERSION_CODENAME=focal          
+UBUNTU_CODENAME=focal               
 
 ✅ **PASSO 01:** Vamos desativar a swap. E validar se a mesma está desabilitada.
 
