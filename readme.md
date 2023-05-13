@@ -6,9 +6,7 @@ Os containers são executados isolados podendo executar varias aplicações.
 São semelhantes a máquinas virtuais.            
 Containers são mais portáveis, mais fáceis de usar e mais dependentes do que sistema operacionais.
 
-Antes de dar início a instalação do DOC vamos verificar a versão:
-
-Verfificar a versão do sistema operacional:
+Antes de inícia a instalação do **Docker** vamos verificar a versão do sistema operacional:
 ```bash
 cat /etc/os-release
 ```
