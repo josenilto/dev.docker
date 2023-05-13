@@ -9,7 +9,7 @@ sudo apt-get update && sudo apt-get upgrade -y
 
 Atualize o índice de pacotes apt e instale pacotes para permitir que o apt use um repositório por HTTPS.
 ```bash
-sudo apt-get install \
+sudo apt-get install -y \
      apt-transport-https \
      ca-certificates \
      software-properties-common \
