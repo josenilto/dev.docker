@@ -1,6 +1,37 @@
 # Dev | Docker Install com Compose no Ubuntu 20.04
 
-✅ **PASSO 01:** Install Docker Engine.
+
+✅ **PASSO 02:** Instalar e configurar pré-requisitos. 
+
+Encaminhando o IPv4 e permitindo que o iptables veja o tráfego em ponte.    
+Execute as instruções abaixo mencionadas:
+
+```bash
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+overlay
+br_netfilter
+EOF
+```
+
+```bash
+sudo modprobe overlay && sudo modprobe br_netfilter -y
+```
+
+sysctl parâmetros exigidos pela configuração, os parâmetros persistem nas reinicializações.
+```bash
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward                 = 1
+EOF
+```
+
+Aplicar parâmetros sysctl sem reiniciar.
+```bash
+sudo sysctl --system
+```
+
+✅ **PASSO 03:** Install Docker Engine.
 
 Atualize seu Sistema, atualizado para você ter mais segurança e confiabilidade:
 ```bash
