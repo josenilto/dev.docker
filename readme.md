@@ -2,6 +2,7 @@
 
 **Docker** é um de gerenciador de processos de aplicação em containers.           
 Os containers são executados isolados podendo executar varias aplicações.           
+
 São semelhantes a máquinas virtuais.            
 Containers são mais portáveis, mais fáceis de usar e mais dependentes do que sistema operacionais.
 
