@@ -25,14 +25,12 @@ sudo apt-get install -y \
      lsb-release
 ```      
 
-Criar o diretório no **`/etc/apt/`**
-
+Adicione os Repositórios no **`/etc/apt/`**
 ```bash
 sudo mkdir -m 0755 -p /etc/apt/keyrings
 ```
 
-Adicione a chave GPG oficial do Docker:
-
+Adiciona uma chave GPG oficial do Docker, inserindo o comando:
 ```bash
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 ```
