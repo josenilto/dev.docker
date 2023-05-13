@@ -2,12 +2,19 @@
 
 ✅ **PASSO 01:** Install Docker Engine.
 
-Atualize o índice de pacotes e repositório apt.
+Atualize seu Sistema, atualizado para você ter mais segurança e confiabilidade:
 ```bash
 sudo apt-get -y update && sudo apt-get upgrade
 ```
 
-Atualize o índice de pacotes apt e instale pacotes para permitir que o apt use um repositório por HTTPS.
+Instale Pacotes de Pré-requisitos:                 
+Você deve instalar alguns dos pacotes necessários.
+
+**software-properties-common** – adiciona scripts para gerenciar o software.            
+**apt-transport-https** – permite que o gerenciador de pacotes transfira os tiles e os dados através de https.      
+**ca-certificates** – permite que o navegador da web e o sistema verifiquem certificados de segurança.          
+**curl** – transfere dados.    
+
 ```bash
 sudo apt-get install -y \
      software-properties-common \
@@ -16,20 +23,15 @@ sudo apt-get install -y \
      curl \
      gnupg \
      lsb-release
-```
-
-**software-properties-common** – adiciona scripts para gerenciar o software.            
-**apt-transport-https** – permite que o gerenciador de pacotes transfira os tiles e os dados através de https.      
-**ca-certificates** – permite que o navegador da web e o sistema verifiquem certificados de segurança.          
-**curl** – transfere dados.          
-
+```      
 
 Criar o diretório no **`/etc/apt/`**
-Adicione a chave GPG oficial do Docker:
 
 ```bash
 sudo mkdir -m 0755 -p /etc/apt/keyrings
 ```
+
+Adicione a chave GPG oficial do Docker:
 
 ```bash
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
