@@ -20,7 +20,7 @@ sudo apt-get install \
 
 **apt-transport-https** – permite que o gerenciador de pacotes transfira os tiles e os dados através de https.      
 **ca-certificates** – permite que o navegador da web e o sistema verifiquem certificados de segurança.          
-**curl** – transfere dados
+**curl** – transfere dados          
 **software-properties-common** – adiciona scripts para gerenciar o software
 
 
