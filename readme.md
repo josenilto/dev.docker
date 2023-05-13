@@ -25,7 +25,7 @@ sudo apt-get install -y \
      lsb-release
 ```      
 
-Adicione os Repositórios no **`/etc/apt/`**
+Adicione o Repositório no **`/etc/apt/`**
 ```bash
 sudo mkdir -m 0755 -p /etc/apt/keyrings
 ```
