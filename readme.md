@@ -36,6 +36,10 @@ Verificar se está desativado:
 ```bash
 cat /etc/fstab
 ```
+**Exemplo:**
+
+LABEL=cloudimg-rootfs   /        ext4   defaults        0 1         
+LABEL=UEFI      /boot/efi       vfat    umask=0077      0 1         
 
 ✅ **PASSO 02:** Install Docker Engine.
 
