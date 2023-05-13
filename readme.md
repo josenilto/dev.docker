@@ -48,7 +48,7 @@ Atualize o índice de pacotes e repositório apt.
 sudo apt-get update && sudo apt-get upgrade -y
 ```
 
-#### ➡️ Links:
+#### ➡️ Links de referência
 
 [<img title="Docker" align="left" alt="josenilto | Twitter" width="28px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/docker.svg" />][docker]
 
