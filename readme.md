@@ -18,10 +18,13 @@ sudo apt-get install \
 
 Criar o diretório no **`/etc/apt/`**
 Adicione a chave GPG oficial do Docker:
+
 ```bash
 sudo mkdir -m 0755 -p /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \ 
-sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+```
+
+```bash
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 ```
 
 Use o seguinte comando para configurar o repositório:
