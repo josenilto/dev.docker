@@ -4,7 +4,7 @@
 
 Atualize seu Sistema, atualizado para você ter mais segurança e confiabilidade:
 ```bash
-sudo apt-get -y update && sudo apt-get upgrade
+sudo apt-get update && sudo apt-get upgrade -y
 ```
 
 Instale Pacotes de Pré-requisitos:                 
