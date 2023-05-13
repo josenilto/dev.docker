@@ -6,9 +6,24 @@ Os containers são executados isolados podendo executar varias aplicações.
 São semelhantes a máquinas virtuais.            
 Containers são mais portáveis, mais fáceis de usar e mais dependentes do que sistema operacionais.
 
-✅ **PASSO 01:**
+Antes de dar início a instalação do DOC vamos verificar a versão:
 
+Verfificar a versão do sistema operacional:
+```bash
+cat /etc/os-release
+```
+
+✅ **PASSO 01:** Vamos desativar a swap. E validar se a mesma está desabilitada.
+
+Desativa swap:
+```bash
 sudo swapoff -a
+```
+
+Verificar se está desativado:
+```bash
+cat /etc/fstab
+```
 
 ✅ **PASSO 02:** Install Docker Engine.
 
