@@ -13,5 +13,5 @@ docker build -t meu-apache .
 docker run -d -p 80:80 meu-apache
 ```
 
-Agora, você deve conseguir acessar o Apache no seu navegador através de `http://localhost`.
+Agora, você deve conseguir acessar o Apache no seu navegador através de `http://localhost`.<br>
 Se precisar de mais alguma coisa ou ajustes, é só avisar!
