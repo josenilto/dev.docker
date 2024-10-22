@@ -1,0 +1,16 @@
+# Use a imagem oficial do Ubuntu como base
+FROM ubuntu:20.04
+
+# Instale as dependências necessárias
+RUN apt-get update && \
+    apt-get install -y apache2 && \
+    apt-get clean
+
+# Copie os arquivos do seu site para o diretório padrão do Apache
+COPY ./site/ /var/www/html/
+
+# Exponha a porta 80
+EXPOSE 80
+
+# Comando para iniciar o Apache em primeiro plano
+CMD ["apachectl", "-D", "FOREGROUND"]
