@@ -159,8 +159,28 @@ INSERT INTO alunos (AlunoID, Nome, Sobrenome, Endereco, Cidade) VALUES (1, 'Carl
 
 Tipos de mount (bind, named, dockerfile volume)
 
-```bash
+As montagens Bind são basicamente apenas vincular um determinado diretório ou arquivo do host dentro do contêiner:
 
+Volumes nomeados são que você cria manualmente com comando:
+
+Eles são criados em /var/lib/docker volumes e podem ser referenciados apenas por seu nome.
+
+Digamos que você crei um volume chamada "mysql_data", você pode apenas referenciá-los como o comando:
+
+dockerfile volume 
+
+Tipo de volume que são criados pela instrução VOLUME. Esses volumes também são criados em /var/lib/docker/ volumes. mas não têm um determinado nome. O volume é criado ao executar o contêiner e são úteis para salvar dados persistentes. O desenvolvedor pode dizer onde estão os dados importantes e o que deve ser persistente.
+
+qual devo utilizar?
+
+Depende de você. Se você quiser manter tudo na "área do docker" (/var/lib/docker), você pode usar volumes. Se você deseja manter sua própria estrutura de diretório, você pode usar binds.
+
+> O Docker recomenda o uso de volumes em vez do uso de binds, pois os volumes são criados e gerenciados pelo docker.
+
+```bash
+docker run -v /hostdir:/containerdir mysql
+docker volume create nome-do-volume
+docker run -v mysql_data:/containerdir mysql
 ```
 
 
