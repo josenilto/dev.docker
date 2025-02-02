@@ -15,12 +15,23 @@ Realizando o download de imagens
 
 ```bash
 docker pull ubuntu
-docker imagens
+docker images
 docker run ubuntu
+docker ps  //contêinneres em execução
+docker container ls
+docker ps -a //contÊinneres em stopados
+docker container run
 docker run ubuntu sleep 10
 docker run ubuntu sleep 1500
 docker stop [id]
 docker run --help
+docker container run --help
 docker run -it ubuntu
+```
+Executando aplicações no contêiner
+
+```bash
+docker run -dti  ubuntu 
+docker exec -it [id ou nome]  /bin/bash
 ```
 
