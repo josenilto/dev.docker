@@ -183,20 +183,83 @@ docker volume create nome-do-volume
 docker run -v mysql_data:/containerdir mysql
 ```
 
-
+Exemplos de tipos de mount, na prática
 
 ```bash
+****bind mount *****
+
+docker run -dti --mount type=bind,src=/opt/teste,dst=/teste debian
+docker exec -ti nomes_usado
+docker run -dti --mount type=bind,src=/opt/teste,dst=/teste,ro debian //Só ler os dados "ro"
+
+***volumes****
+
+docker volume create data-debian
+docker volume ls
+
+cd /var/lib/docker/volumes/data-debian/_data
+touch Arquivo-01.txt
+touch Arquivo-02.txt
+ls
+	
+docker run -dti --name debian-A --mount type=volume,src=data-debian,dst=/data debian
+docker run -dti --name debian-B --mount type=volume,src=data-debian,dst=/data debian
+docker exec -ti debian-A bash
+docker exec -ti debian-B bash
+
+docker stop debian-A
+docker rm debian-A
+
+docker stop debian-B
+docker rm debian-B
+
+docker volume rm data-debian
+docker volume ls
+```
+
+Mount - Conclusão
+
+```bash
+docker run -dti --name centos-A --mount type=volume,src=data-centos-vol,dst=/opt/data-centos-vol centos
+
+docker inspect centos-A
+
+docker exec -ti centos-A bash
+
+docker stop centos-A
+docker rm centos-A
+docker rm -f centos-A //Remover o conteiner direto sem stop
+
+docker volume rm data-centos-vol
+docker volume prune //Excluir todos volume que não está em execução
+
+docker container ls
+docker container ls -a
 
 ```
 
-
-
-```bash
-
-```
-
-
+Exemplo: Apache Contêiner
 
 ```bash
+docker run  --name apache-A -d -p 80:80 --volume=/data-apache-vol/apache-A:/usr/local/apache2/htdocs/ httpd
+
+docker run  --name apache-A -d -p 80:80 --volume=/var/lib/docker/volumes/data-apache-vol/apache-A:/usr/local/apache2/htdocs/ httpd
+
+docker run  --name php-A -d -p 8080:80 --volume=/var/lib/docker/volumes/data-apache-vol/apache-A:/var/www/html php:7.4-apache
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>Exemplo Apache</title>
+</head>
+<body>
+<h1> OK !! Apache funcionando!!!!! </h1>
+</body>
+</html>
+
+<?php
+phpinfo();
+?>
 
 ```
