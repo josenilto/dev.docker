@@ -33,5 +33,47 @@ Executando aplicações no contêiner
 ```bash
 docker run -dti  ubuntu 
 docker exec -it [id ou nome]  /bin/bash
+
+apt update
+apt upgrade -y
+apt -y install vim
+
+docker exec -it [id ou nome] cat /etc/*release*
 ```
 
+Excluindo e nomeando conteinêres
+
+```bash
+docker stop [id]
+docker rm [id]
+docker rmi [imagem]
+
+docker run -dti --name Ubuntu-A ubuntu
+```
+
+Copiando arquivos para o contêiner
+
+```bash
+docker exec -ti Ubuntu-A /bin/bash
+docker exec Ubuntu-A mkdir /destino/
+rm -R destino/
+docker exec Ubuntu-A mkdir ls -l /
+
+vim Arquivo.txt
+
+docker cp arquivo.txt Ubuntu-A:/aula/
+docker cp MeuArquivo.txt Ubuntu-A:/destino/
+docker exec Ubuntu-A ls /destino -l
+
+apt install -y zip
+apt update
+apt upgrade
+zip MeuZip.zip *.txt
+
+docker cp MeuArquivo.zip Ubuntu-A:/destino/
+docker exec -ti Ubuntu-A /bin/bash
+cd /destino/
+ls
+
+
+```
