@@ -74,6 +74,109 @@ docker cp MeuArquivo.zip Ubuntu-A:/destino/
 docker exec -ti Ubuntu-A /bin/bash
 cd /destino/
 ls
+```
 
+Copiando arquivos do contêiner
+
+```bash
+docker cp Ubuntu-A:/destino/Meuzip.zip  Zipcopia.zip
+```
+
+Tags
+
+```bash
+docker run -dti  debian:9
+```
+
+Criando um contêiner do MySQL  
+https://hub.docker.com/search?badges=official
+
+
+```bash
+
+docker pull mysql
+docker run -e MYSQL_ROOT_PASSWORD=Senha123 --name mysql-A -d -p 3306:3306 mysql
+docker exec -it mysql-A bash
+
+mysql -u root -p --protocol=tcp
+
+CREATE DATABASE aula;
+show databases;
+
+docker inspect mysql-A
+
+apt -y install mysql-client
+
+mysql -u root -p --protocol=tcp
+```
+
+Acessando o contêiner externamente
+
+```bash
+CREATE TABLE alunos (
+    AlunoID int,
+    Nome varchar(50),
+    Sobrenome varchar(50),
+    Endereco varchar(150),
+    Cidade varchar(50)
+);
+
+INSERT INTO alunos (AlunoID, Nome, Sobrenome, Endereco, Cidade) VALUES (1, 'Carlos Alberto', 'da Silva', 'Av. que sobe e desce que ninguém conhece', 'Manaus');
+
+```
+
+Parando e reiniciando um contêiner
+
+```bash
+docker stop mysql-A
+docker start mysql-A
+
+use aula;
+select * from alunos;
+docker rm mysql-A
+```
+
+Montando (mount) um local de armazenamento
+
+```bash
+docker run -e MYSQL_ROOT_PASSWORD=Senha123 --name mysql-A -d -p 3306:3306 --volume=/data:/var/lib/mysql mysql
+
+mysql -u root -p --protocol=tcp --port=3306
+
+CREATE TABLE alunos (
+    AlunoID int,
+    Nome varchar(50),
+    Sobrenome varchar(50),
+    Endereco varchar(150),
+    Cidade varchar(50)
+);
+
+
+
+INSERT INTO alunos (AlunoID, Nome, Sobrenome, Endereco, Cidade) VALUES (1, 'Carlos Alberto', 'da Silva', 'Av. que sobe e desce que ninguém conhece', 'Manaus');
+
+```
+
+Tipos de mount (bind, named, dockerfile volume)
+
+```bash
+
+```
+
+
+
+```bash
+
+```
+
+
+
+```bash
+
+```
+
+
+
+```bash
 
 ```
