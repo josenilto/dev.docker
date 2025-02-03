@@ -247,6 +247,10 @@ docker run  --name apache-A -d -p 80:80 --volume=/var/lib/docker/volumes/data-ap
 
 docker run  --name php-A -d -p 8080:80 --volume=/var/lib/docker/volumes/data-apache-vol/apache-A:/var/www/html php:7.4-apache
 
+docker run  --name php-A -d -p 8080:80 --volume=/data/php-A:/var/www/html php:7.4-apache
+
+chmod 754 dokuwiki
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -261,5 +265,37 @@ docker run  --name php-A -d -p 8080:80 --volume=/var/lib/docker/volumes/data-apa
 <?php
 phpinfo();
 ?>
+
+```
+
+Exemplo: PHP-Apache Contêiner
+
+```bash
+docker pull php:7.4-apache
+docker run  --name php-A -d -p 8080:80 --volume=/var/lib/docker/volumes/data-apache-vol/apache-A:/var/www/html php:7.4-apache
+
+```
+
+
+
+```bash
+
+```
+
+
+
+```bash
+
+```
+
+
+
+```bash
+
+```
+
+
+
+```bash
 
 ```
