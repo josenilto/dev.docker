@@ -276,21 +276,46 @@ docker run  --name php-A -d -p 8080:80 --volume=/var/lib/docker/volumes/data-apa
 
 ```
 
-
+Limitando memória e CPU
 
 ```bash
+docker stats php-A
+docker update php-A -m 128M --cpus 0.2
+docker run --name ubuntu-C -dti -m 128M --cpus 0.2 ubuntu
+docker exec -ti ubuntu-C bash
 
+apt update && apt upgrade && apt install stress
+stress --cpu 1 --vm-bytes 50m --vm 1 --vm-bytes 50m
+stress --cpu 1 --vm-bytes 150m --vm 1 --vm-bytes 100m
 ```
 
-
+Informações, logs e processos
 
 ```bash
-
+docker info
+docker container logs mysql-A
+docker container top mysql-A
 ```
 
-
+Redes
 
 ```bash
+docker network ls
+docker network inspect bridge
+docker exec -ti ubuntu-C bash
+
+apt-get install iputils-ping
+
+docker network create minha-rede
+docker run -dit --name Ubuntu-B --network minha-rede  ubuntu
+docker run -dit --name Ubuntu-C --network minha-rede  ubuntu
+
+docker exec -ti ubuntu-B bash
+
+docker rm -f Ubuntu-B Ubuntu-C
+docker network rm minha-rede
+
+docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=MyPass@word" -e "MSSQL_PID=Express" -p 1433:1433 -d --name=sql mcr.microsoft.com/mssql/server:latest
 
 ```
 
