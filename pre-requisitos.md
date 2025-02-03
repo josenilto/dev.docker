@@ -319,6 +319,82 @@ docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=MyPass@word" -e "MSSQL_PID=Express
 
 ```
 
+Primeiro Docker File
+
+```bash
+docker run -dti --name ubuntu-python ubuntu
+docker exec -ti ubuntu-python bash
+
+apt update && apt install python3 nano && apt clean
+
+cd /opt
+nano app.py
+
+nome = input("Qual é o seu nome? ")
+print (nome)
+
+python3 app.py
+docker exec -ti ubuntu-python python3 /opt/app.py
+
+mkdir /images
+cd /images
+
+nano dockerfile
+
+FROM ubuntu
+
+RUN apt update && apt install -y python3 && apt clean
+
+COPY app.py /opt/app.py
+
+CMD python3 /opt/app.py
+
+docker build . -t python-ubuntu
+dc
+```
+
+
+
+```bash
+
+```
+
+
+
+```bash
+
+```
+
+
+
+```bash
+
+```
+
+
+
+```bash
+
+```
+
+
+
+```bash
+
+```
+
+
+
+```bash
+
+```
+
+
+
+```bash
+
+```
+
 
 
 ```bash
