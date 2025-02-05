@@ -401,12 +401,15 @@ dc
 
 ```
 
-docker-compose up: cria e inicia os contêineres;
-docker-compose build: realiza apenas a etapa de build das imagens que serão utilizadas;
-docker-compose logs: visualiza os logs dos contêineres;
-docker-compose restart: reinicia os contêineres;
-docker-compose ps: lista os contêineres;
-docker-compose scale: permite aumentar o número de réplicas de um contêiner;
-docker-compose start: inicia os contêineres;
-docker-compose stop: paralisa os contêineres;
-docker-compose down: paralisa e remove todos os contêineres e seus componentes como rede, imagem e volume.
+docker-compose up: cria e inicia os contêineres;  
+docker-compose build: realiza apenas a etapa de build das imagens que serão utilizadas;  
+docker-compose logs: visualiza os logs dos contêineres;  
+docker-compose restart: reinicia os contêineres;  
+docker-compose ps: lista os contêineres;  
+docker-compose scale: permite aumentar o número de réplicas de um contêiner;  
+docker-compose start: inicia os contêineres;  
+docker-compose stop: paralisa os contêineres;  
+docker-compose down: paralisa e remove todos os contêineres e seus componentes como rede, imagem e volume.  
+
+git config --global user.email "josenilto@outlook.com"  
+git config --global user.name "Josenilto L da Silva"
