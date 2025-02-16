@@ -409,14 +409,101 @@ nome = input("Qual é o seu nome? ")
 	print (nome)
 =====================================
 
+vim Dockerfile
+
 FROM python
 WORKDIR /usr/src/app
 
 COPY app.py /usr/src/app
 CMD [ "python", "./app.py" ]
+
+docker image build -t app-python:1.0 .
+docker images
+docker run -ti --name runappl app-python:1.0
+
 ```
 
+Criando uma imagem Multistage
 
+```bash
+docker pull golang
+docker pull alpine
+
+vim app.go
+============================================================
+
+package main
+import (
+    "fmt"
+)
+
+func main() {
+  fmt.Println("Qual é o seu nome:? ")
+  var name string
+  fmt.Scanln(&name)
+  fmt.Printf("Oi, %s! Eu sou a linguagem Go! ", name)
+}
+
+=============================================================
+vim Dockerfile
+
+FROM golang as exec
+COPY app.go /go/src/app/
+
+ENV GO111MODULE=auto
+
+WORKDIR /go/src/app
+RUN go build -o app.go .
+
+FROM alpine
+WORKDIR /appexec
+COPY --from=exec /go/src/app/ /appexec
+RUN chmod -R 755 /appexec
+ENTRYPOINT ./app.go
+
+==============================================================
+
+# docker image build -t app-go:1.0 .
+# docker run -ti  app-go:1.0
+# docker run -ti  --name meuappOK app-go:1.0
+
+```
+
+Realizando o upload de imagens para o Docker Hub
+
+```bash
+docker login
+docker build . -t nome-de-usuário/my-go=app:1.0
+docker push nome-deu-usuário/my-go=app:1.0
+```
+
+Registry: Criando um servidor de imagens
+
+```bash
+docker run -d -p 5000:5000 --restart=always --name registry registry:2
+docker logout
+docker image tag [id] localhost:5000/meu-apache:1.0
+
+curl localhost:5000/v2/_catalog
+
+docker push  localhost:5000/my-go-app:1.0
+
+*****************
+nano /etc/docker/daemon.json 
+
+	{ "insecure-registries":["10.0.0.189:5000"] }
+*****************	
+
+systemctl restart docker
+
+docker push  localhost:5000/my-go-app:1.0
+docker pull  localhost:5000/my-go-app:1.0
+```
+
+Definição e instalação
+
+Docker compose é uma ferramenta desenvolvida para ajudar a definir e compartilhar aplicativos com vários contêineres.  
+Com om compose, você pode criar um arquivo YAML para defenir os serviços e com um único comando, pode rodar todos os contêineres ou para-los.
 
 ```bash
 
@@ -451,6 +538,13 @@ CMD [ "python", "./app.py" ]
 ```bash
 
 ```
+
+
+
+```bash
+
+```
+
 
 docker-compose up: cria e inicia os contêineres;  
 docker-compose build: realiza apenas a etapa de build das imagens que serão utilizadas;  
