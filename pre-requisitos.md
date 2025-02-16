@@ -506,18 +506,164 @@ Docker compose é uma ferramenta desenvolvida para ajudar a definir e compartilh
 Com om compose, você pode criar um arquivo YAML para defenir os serviços e com um único comando, pode rodar todos os contêineres ou para-los.
 
 ```bash
+https://www.adminer.org
+```
+
+```bash
+apt-get install -y docker-compose
+```
+
+Docker-compose: Exemplo prático
+
+```bash
+vim docker-compose.yml
+====================
+
+version: '3.8'
+
+services:
+  mysqlsrv:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: "Senha123"
+      MYSQL_DATABASE: "testedb"
+    ports:
+      - "3306:3306"
+    volumes:
+      - /data/mysql-C:/var/lib/mysql
+    networks:
+      - minha-rede
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    networks:
+      - minha-rede
+
+networks: 
+  minha-rede:
+    driver: bridge
+
+
+# docker-compose up -d
+# docker-compose down
+
+# docker network ls
 
 ```
 
-
-
-```bash
-
-```
-
-
+Exemplo PHP-APACHE-MYSQL
 
 ```bash
+===============================================
+vim docker-compose.yml
+===============================================
+
+version: "3.7"
+
+services:
+  web:
+    image: webdevops/php-apache:alpine-php7
+    ports:
+      - "4500:80"
+    volumes:
+      - /data/php/:/app
+
+    networks:
+      - minha-rede
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: "Senha123"
+      MYSQL_DATABASE: "testedb"
+    ports:
+      - "3306:3306"
+    volumes:
+      - /data/mysql-C:/var/lib/mysql
+
+    networks:
+      - minha-rede
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      MYSQL_ROOT_PASSWORD: "Senha123"
+    ports:
+      - "8080:80"
+    volumes:
+      - /data/php/admin/uploads.ini:/usr/local/etc/php/conf.d/php-phpmyadmin.ini
+
+    networks:
+      - minha-rede
+
+networks:
+   minha-rede:
+     driver: bridge
+
+=============================================================
+ vim uploads.ini
+=============================================================
+ 
+file_uploads = On
+memory_limit = 500M
+upload_max_filesize = 500M
+post_max_size = 500M
+max_execution_time = 600
+max_file_uploads = 50000
+max_execution_time = 5000
+max_input_time = 5000
+
+=============================================================
+vim index.php
+=============================================================
+<html>
+
+<head>
+<title>Exemplo PHP</title>
+</head>
+
+<?php
+ini_set("display_errors", 1);
+header('Content-Type: text/html; charset=iso-8859-1');
+
+echo 'Versao Atual do PHP: ' . phpversion() . '<br>';
+
+$servername = "db";
+$username = "root";
+$password = "Senha123";
+$database = "testedb";
+
+// Criar conexão
+
+
+$link = new mysqli($servername, $username, $password, $database);
+
+/* check connection */
+if (mysqli_connect_errno()) {
+    printf("Connect failed: %s\n", mysqli_connect_error());
+    exit();
+}
+
+$query = "SELECT * FROM tabela_exemplo";
+
+if ($result = mysqli_query($link, $query)) {
+
+    
+    while ($row = mysqli_fetch_assoc($result)) {
+        printf ("%s %s %s <br>", $row["nome"], $row["cidade"], $row["salario"]);
+    }
+
+    
+    mysqli_free_result($result);
+}
+
+
+mysqli_close($link);
+
+?>
+</html>
 
 ```
 
@@ -557,4 +703,8 @@ docker-compose stop: paralisa os contêineres;
 docker-compose down: paralisa e remove todos os contêineres e seus componentes como rede, imagem e volume.  
 
 git config --global user.email "josenilto@outlook.com"  
-git config --global user.name "Josenilto L da Silva"
+git config --global user.name "Josenilto L da Silva"  
+
+sudo usermod -a -G microk8s $USER  
+sudo chown -f -R $USER ~/.kube  
+su - $USER  
