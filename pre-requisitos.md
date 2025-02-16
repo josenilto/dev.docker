@@ -667,9 +667,27 @@ mysqli_close($link);
 
 ```
 
-
+Utilizando o docker machine
 
 ```bash
+docker-machine version
+  
+docker-machine ls
+docker-machine ip nome
+docker-machine ssh nome
+  
+docker-machine create --driver virtualbox nome
+
+--virtualbox-cpu-count "1"
+--virtualbox-disk-size "20000"
+--virtualbox-memory "1024"
+
+docker-machine env nome
+eval $(docker-machine env nome)
+
+
+docker-machine stop nome
+docker-machine start nome
 
 ```
 
