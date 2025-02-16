@@ -685,6 +685,7 @@ docker-machine create --driver virtualbox nome
 docker-machine env nome
 eval $(docker-machine env nome)
 
+docker-machine create --driver hyperv --hyperv-disk-size "20000" --hyperv-memory "8192" my-docker-vm
 
 docker-machine stop nome
 docker-machine start nome
