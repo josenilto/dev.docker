@@ -676,11 +676,7 @@ docker-machine ls
 docker-machine ip nome
 docker-machine ssh nome
   
-docker-machine create --driver virtualbox nome
-
---virtualbox-cpu-count "1"
---virtualbox-disk-size "20000"
---virtualbox-memory "1024"
+docker-machine create --driver virtualbox --virtualbox-cpu-count "1" --virtualbox-disk-size "20000" --virtualbox-memory "1024"
 
 docker-machine env nome
 eval $(docker-machine env nome)
@@ -692,10 +688,44 @@ docker-machine start nome
 
 ```
 
-
+Criando um cluster Swarm
 
 ```bash
 
+docker-machine create --driver virtualbox  dw1
+docker-machine create --driver virtualbox  dw2
+docker-machine create --driver virtualbox  dw3
+docker swarm --help
+docker swarm init
+docker swarm init --advertise-addr [ip]
+
+docker swarm join --token [token] [ip]:2377
+docker node ls
+
+```
+
+Gerenciando o cluster Swarm - Parte 1
+
+```bash
+
+docker service create --name web-server --replicas 3 -p 8080:80 httpd
+docker service ps web-server
+docker service rm web-server
+
+docker node update --availability drain [nome]
+
+```
+
+Gerenciando o cluster Swarm - Parte 2
+
+```bash
+docker node ls   
+docker service ls
+
+docker swarm join-token worker             
+
+docker node promote [nome]
+docker node demote [nome]
 ```
 
 
@@ -706,9 +736,32 @@ docker-machine start nome
 
 
 
+
 ```bash
 
 ```
+
+
+
+
+```bash
+
+```
+
+
+
+
+```bash
+
+```
+
+
+
+
+```bash
+
+```
+
 
 
 docker-compose up: cria e inicia os contêineres;  
