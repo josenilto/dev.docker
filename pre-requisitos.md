@@ -780,3 +780,7 @@ git config --global user.name "Josenilto L da Silva"
 sudo usermod -a -G microk8s $USER  
 sudo chown -f -R $USER ~/.kube  
 su - $USER  
+
+
+
+Lab: https://labs.play-with-docker.com/  
