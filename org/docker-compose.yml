@@ -1,0 +1,300 @@
+version: '3.8'
+
+services:
+  # --- Monitoring Stack ---
+  prometheus:
+    build: ./compose/prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - prometheus-storage:/prometheus
+    networks:
+      - monitoring-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9090/-/healthy"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # InfluxDB - Banco de dados de séries temporais
+  influxdb:
+    build: ./compose/influxdb
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb-storage:/var/lib/influxdb2
+    environment:
+      - INFLUXDB_DB=mydb
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin
+    networks:
+      - monitoring-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8086/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Grafana - Visualização de dados
+  grafana:
+    build: ./compose/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    networks:
+      - monitoring-network
+    depends_on:
+      prometheus:
+        condition: service_healthy
+      influxdb:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Node Exporter - Coleta de métricas do sistema
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    ports:
+      - "9100:9100"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    networks:
+      - monitoring-network
+    restart: unless-stopped
+
+  # Docker Exporter - Métricas do Docker
+  docker-exporter:
+    image: containerstack/docker-exporter
+    container_name: docker-exporter
+    ports:
+      - "9323:9323"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - monitoring-network
+    restart: unless-stopped
+
+  # --- Zabbix Monitoring Stack ---
+  # MySQL - Banco de dados para Zabbix
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_password
+      - MYSQL_DATABASE=zabbix
+      - MYSQL_USER=zabbix
+      - MYSQL_PASSWORD=zabbix_password
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - monitoring-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # TODO: Zabbix Server - Monitoramento centralizado (desabilitado temporariamente)
+  # zabbix-server:
+  #   build: ./compose/zabbix-server
+  #   container_name: zabbix-server
+  #   ports:
+  #     - "10051:10051"
+  #   environment:
+  #     - DB_PASSWORD=zabbix_password
+  #     - ZBX_SERVER_NAME=Zabbix Server
+  #     - ZBX_DEBUGLEVEL=3
+  #     - ZBX_HOUSEKEEPINGFREQUENCY=1
+  #     - ZBX_MAXHOUSEKEEPERDELETE=5000
+  #     - ZBX_CACHESIZE=32M
+  #     - ZBX_HISTORYCACHESIZE=16M
+  #     - ZBX_HISTORYINDEXCACHESIZE=4M
+  #     - ZBX_TRENDCACHESIZE=4M
+  #   volumes:
+  #     - zabbix-alertscripts:/usr/lib/zabbix/alertscripts
+  #     - zabbix-externalscripts:/usr/lib/zabbix/externalscripts
+  #   networks:
+  #     - monitoring-network
+  #   depends_on:
+  #     mysql:
+  #       condition: service_healthy
+  #   restart: unless-stopped
+
+  # TODO: Zabbix Frontend - Interface web do Zabbix (desabilitado temporariamente)
+  # zabbix-frontend:
+  #   image: zabbix/zabbix-web-nginx-mysql:latest
+  #   container_name: zabbix-frontend
+  #   ports:
+  #     - "8080:8080"
+  #   environment:
+  #     - ZBX_SERVER_HOST=zabbix-server
+  #     - ZBX_SERVER_PORT=10051
+  #     - DB_SERVER_HOST=mysql
+  #     - DB_DATABASE=zabbix
+  #     - DB_USER=zabbix
+  #     - DB_PASSWORD=zabbix_password
+  #     - ZBX_SERVER_NAME=Zabbix Monitoring
+  #     - PHP_TZ=America/Sao_Paulo
+  #   volumes:
+  #     - zabbix-frontend:/usr/share/zabbix/modules
+  #   networks:
+  #     - monitoring-network
+  #   depends_on:
+  #     zabbix-server:
+  #       condition: service_healthy
+  #   restart: unless-stopped
+
+  # --- Logging Stack ---
+  # MongoDB - Banco de dados para configurações do Graylog
+  mongodb:
+    image: mongo:5.0
+    container_name: mongodb
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - logging-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Elasticsearch - Engine de busca para Graylog
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    networks:
+      - logging-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail http://localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # TODO: Graylog - Gerenciamento de logs centralizado (desabilitado temporariamente)
+  # graylog:
+  #   build: ./compose/graylog
+  #   container_name: graylog
+  #   ports:
+  #     - "9000:9000"
+  #     - "514:514"
+  #     - "514:514/udp"
+  #     - "1514:1514"
+  #     - "1514:1514/udp"
+  #     - "5555:5555"
+  #     - "5555:5555/udp"
+  #   volumes:
+  #     - graylog-journal:/usr/share/graylog/data/journal
+  #     - graylog-config:/usr/share/graylog/data/config
+  #   environment:
+  #     - GRAYLOG_ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+  #     - GRAYLOG_MONGODB_URI=mongodb://mongodb:27017/graylog
+  #     - GRAYLOG_PASSWORD_SECRET=changemechangemechangemechangeme
+  #     - GRAYLOG_ROOT_PASSWORD_SHA2=8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
+  #   networks:
+  #     - logging-network
+  #   depends_on:
+  #     mongodb:
+  #       condition: service_healthy
+  #     elasticsearch:
+  #       condition: service_healthy
+  #   restart: unless-stopped
+
+  # Loki - Stack de logging distribuído
+  # TODO: Loki - Stack de logging distribuído (desabilitado temporariamente)
+  # loki:
+  #   build: ./compose/grafana/loki
+  #   container_name: loki
+  #   ports:
+  #     - "3100:3100"
+  #   volumes:
+  #     - loki-chunks:/loki/chunks
+  #   networks:
+  #     - logging-network
+  #   restart: unless-stopped
+
+  # TODO: Promtail - Agente de coleta de logs para Loki (desabilitado temporariamente)
+  # promtail:
+  #   image: grafana/promtail:latest
+  #   container_name: promtail
+  #   volumes:
+  #     - /var/log:/var/log:ro
+  #     - ./compose/promtail/promtail-config.yaml:/etc/promtail/config.yaml:ro
+  #   command: -config.file=/etc/promtail/config.yaml
+  #   networks:
+  #     - logging-network
+  #   depends_on:
+  #     - loki
+  #   restart: unless-stopped
+
+  # --- Application Server ---
+  # Ubuntu 20.04 with Apache2 and Monitoring Agents
+  ubuntu-20-04:
+    build: ./compose/ubuntu-20.04
+    container_name: ubuntu-20-04
+    ports:
+      - "8081:80"
+      - "9101:9100"
+      - "10051:10050"
+    environment:
+      - DEBIAN_FRONTEND=noninteractive
+      - TZ=America/Sao_Paulo
+    volumes:
+      - ubuntu-html:/var/www/html
+      - ubuntu-logs:/var/log
+    networks:
+      - monitoring-network
+    restart: unless-stopped
+
+networks:
+  monitoring-network:
+    driver: bridge
+  logging-network:
+    driver: bridge
+
+volumes:
+  prometheus-storage:
+  influxdb-storage:
+  grafana-storage:
+  mysql-data:
+  zabbix-alertscripts:
+  zabbix-externalscripts:
+  zabbix-frontend:
+  ubuntu-html:
+  ubuntu-logs:
+  mongo-data:
+  elasticsearch-data:
+  graylog-journal:
+  graylog-config:
+  loki-chunks:
