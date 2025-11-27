@@ -1,12 +1,12 @@
-# 📚 Documentação Completa --- Wiki do Projeto
+### 📚 Documentação Completa --- Wiki do Projeto
 
-Bem-vindo à documentação completa do projeto. Este documento serve como
-base para a Wiki oficial, oferecendo instruções detalhadas, arquitetura,
-tutoriais e material de referência.
+Bem-vindo à documentação completa do projeto.
+
+Este documento serve como base para a Wiki oficial, oferecendo instruções detalhadas, arquitetura, tutoriais e material de referência.
 
 ------------------------------------------------------------------------
 
-# 📌 1. Introdução
+### 📌 1. Introdução
 
 Este projeto tem como objetivo fornecer uma stack completa baseada em
 **Docker** e **Docker Compose**, permitindo o provisionamento de
@@ -14,7 +14,7 @@ ambientes escaláveis, reproducíveis e fáceis de manter.
 
 ------------------------------------------------------------------------
 
-# 🏗 2. Arquitetura do Sistema
+### 🏗 2. Arquitetura do Sistema
 
 A arquitetura segue uma abordagem modular:
 
@@ -38,7 +38,7 @@ A arquitetura segue uma abordagem modular:
     |        Database        |
     +------------------------+
 
-### Componentes Principais
+#### Componentes Principais
 
 -   **Nginx Proxy** --- Gateway de entrada.
 -   **Aplicação** --- Serviço principal containerizado.
@@ -47,7 +47,7 @@ A arquitetura segue uma abordagem modular:
 
 ------------------------------------------------------------------------
 
-# 🧱 3. Requisitos
+### 🧱 3. Requisitos
 
   Componente       Versão Requerida
   ---------------- -------------------
@@ -60,7 +60,7 @@ A arquitetura segue uma abordagem modular:
 
 ------------------------------------------------------------------------
 
-# ⚙️ 4. Instalação do Docker e Compose
+### ⚙️ 4. Instalação do Docker e Compose
 
 Procedimentos validados para Ubuntu 20.04+.
 
@@ -88,7 +88,7 @@ Procedimentos validados para Ubuntu 20.04+.
 
 ------------------------------------------------------------------------
 
-# 🔧 5. Configuração Pós-instalação
+### 🔧 5. Configuração Pós-instalação
 
 ### Adicionar usuário ao grupo docker
 
@@ -100,7 +100,7 @@ Procedimentos validados para Ubuntu 20.04+.
 
 ------------------------------------------------------------------------
 
-# ▶️ 6. Execução do Ambiente
+### ▶️ 6. Execução do Ambiente
 
 ### Subir serviços
 
@@ -112,7 +112,7 @@ Procedimentos validados para Ubuntu 20.04+.
 
 ------------------------------------------------------------------------
 
-# 🛠 7. Comandos Úteis
+### 🛠 7. Comandos Úteis
 
   Ação                         Comando
   ---------------------------- -------------------------------
@@ -123,7 +123,7 @@ Procedimentos validados para Ubuntu 20.04+.
 
 ------------------------------------------------------------------------
 
-# 📂 8. Estrutura do Projeto
+### 📂 8. Estrutura do Projeto
 
     /project
     ├─ docker/
@@ -138,7 +138,7 @@ Procedimentos validados para Ubuntu 20.04+.
 
 ------------------------------------------------------------------------
 
-# 🧩 9. Troubleshooting (Problemas Comuns)
+### 🧩 9. Troubleshooting (Problemas Comuns)
 
 ### Docker sem permissão
 
@@ -162,7 +162,7 @@ Execute:
 
 ------------------------------------------------------------------------
 
-# 🧱 10. Boas Práticas
+### 🧱 10. Boas Práticas
 
 -   Fixar versões no `docker-compose.yml`
 -   Utilizar `.env` para variáveis sensíveis
@@ -172,19 +172,19 @@ Execute:
 
 ------------------------------------------------------------------------
 
-# 🤝 11. Contribuição
+### 🤝 11. Contribuição
 
 Contribuições são bem-vindas!\
 Crie uma **issue** ou envie um **Pull Request**.
 
 ------------------------------------------------------------------------
 
-# 📜 12. Licença
+### 📜 12. Licença
 
 Distribuído sob a licença **MIT**.
 
 ------------------------------------------------------------------------
 
-# 🏁 Fim
+### 🏁 Fim
 
 Obrigado por utilizar esta documentação.
